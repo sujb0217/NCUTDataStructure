@@ -1,3 +1,7 @@
+/**
+ *    author: Jingbo Su
+ *    created: 29/10/2021
+**/
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,8 +11,7 @@ using namespace std;
 
 typedef pair<char, int> bracket;
 
-bool isMatch(bracket a, bracket b)
-{
+bool isMatch(bracket a, bracket b) {
     if (!(a.first ^ '(') && !(b.first ^ ')'))
         return true;
     if (!(a.first ^ '{') && !(b.first ^ '}'))
@@ -16,65 +19,57 @@ bool isMatch(bracket a, bracket b)
     return false;
 }
 
-bool isLeftBracket(char ch)
-{
+bool isLeftBracket(char ch) {
     if (!(ch ^ '(') || !(ch ^ '{'))
         return true;
     return false;
 }
 
-bool isRightBracket(char ch)
-{
+bool isRightBracket(char ch) {
     if (!(ch ^ ')') || !(ch ^ '}'))
         return true;
     return false;
 }
 
 class Stack {
-public:
+  public:
 
     Stack() = default;
 
-    void Push(bracket bk)
-    {
+    void Push(bracket bk) {
         stk.emplace_back(bk);
     }
 
-    void Pop()
-    {
+    void Pop() {
         if (!static_cast<int> (stk.size()))
             exit(0);
         stk.pop_back();
     }
 
-    bracket Top()
-    {
+    bracket Top() {
         if (!static_cast<int> (stk.size()))
             exit(0);
         return stk.back();
     }
 
-    bool isEmpty()
-    {
+    bool isEmpty() {
         return !(static_cast<int> (stk.size()));
     }
 
-private:
+  private:
     vector<bracket> stk;
 };
 
 class Solve {
-public:
+  public:
     Solve() = default;
 
-    explicit Solve(int maxn)
-    {
+    explicit Solve(int maxn) {
         args.resize(maxn);
         row = 0;
     }
 
-    void readFile()
-    {
+    void readFile() {
         ifstream ifstr("example.c", ios::in);
 
         while (getline(ifstr, args[row++]));
@@ -84,8 +79,7 @@ public:
         ifstr.close();
     }
 
-    vector<bracket> getBrackets()
-    {
+    vector<bracket> getBrackets() {
         vector<bracket> ans;
         for (int i = 0; i < row; ++i) {
             int col = static_cast<int> (args[i].size());
@@ -115,21 +109,21 @@ public:
                     while (args[i][++j] != '\"');
                     continue;
                 }
-                if (isLeftBracket(ch) || isRightBracket(ch))
+                if (isLeftBracket(ch) || isRightBracket(ch)) {
                     ans.emplace_back(ch, i + 1);
+                }
             }
         }
 
         return ans;
     }
 
-private:
+  private:
     vector<string> args;
     int row;
 };
 
-void goMatch(vector<bracket> argc)
-{
+void goMatch(vector<bracket> argc) {
     Stack stack;
 
     for (auto &i: argc) {
@@ -154,8 +148,7 @@ void goMatch(vector<bracket> argc)
     }
 }
 
-int main()
-{
+int main() {
     const int maxn = 211;
     Solve solve(maxn);
 

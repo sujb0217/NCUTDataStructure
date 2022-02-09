@@ -1,3 +1,7 @@
+/**
+ *    author: Jingbo Su
+ *    created: 09/11/2021
+**/
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -13,7 +17,7 @@ struct TreeNode {
 };
 
 class Tree {
-public:
+  public:
     TreeNode* buildTree(vector<char>& preorder, vector<char>& inorder) {
         for (int i = 0; i < (int)inorder.size(); ++i) {
             pos[inorder[i]] = i;
@@ -40,13 +44,12 @@ public:
 
         return res;
     }
-private:
+  private:
     unordered_map<char, int> pos;
     vector<char> res;
 };
 
-int main()
-{
+int main() {
     vector<char> preorder, inorder;
     string pres, ins;
     getline(cin, pres);

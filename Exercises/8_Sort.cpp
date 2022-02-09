@@ -1,7 +1,6 @@
 /**
- *    title:   Sort
- *    author:  sujb
- *    created: Dec/2021
+ *    author: Jingbo Su
+ *    created: 07/12/2021
 **/
 #include <bits/stdc++.h>
 

@@ -1,11 +1,14 @@
+/**
+ *    author: Jingbo Su
+ *    created: 29/10/2021
+**/
 #include <iostream>
 #include <algorithm>
 #include <vector>
 
 using namespace std;
 
-struct Car
-{
+struct Car {
     int num;
     int beginTime;
     int endTime;
@@ -16,15 +19,13 @@ struct Car
 
     Car(int a, int b) : num(a), beginTime(0), endTime(b) {}
 
-    Car(const Car &car1)
-    {
+    Car(const Car &car1) {
         this->num = car1.num;
         this->beginTime = car1.beginTime;
         this->endTime = car1.endTime;
     }
 
-    Car &operator=(const Car &obj)
-    {
+    Car &operator=(const Car &obj) {
         if (this == &obj)
             return *this;
         this->num = obj.num;
@@ -34,11 +35,9 @@ struct Car
     }
 };
 
-class queue
-{
-public:
-    struct Container
-    {
+class queue {
+  public:
+    struct Container {
         Container *next;
         Container *prev;
         Car car;
@@ -62,10 +61,9 @@ public:
     typedef Container _Queue;
     typedef Container* _Q;
 
-public:
+  public:
 
-    void init() noexcept
-    {
+    void init() noexcept {
         _q = new _Queue();
         _q->next = _q;
         _q->prev = _q;
@@ -74,8 +72,8 @@ public:
 
     bool isEmpty() const noexcept { return !size; }
 
-    void Push(Car C)
-    {
+    void Push(Car C) {
+
 //        会产生野指针
 //        _Queue node(C);
 //        _Q _node = &node;
@@ -91,8 +89,7 @@ public:
         ++this->size;
     }
 
-    void Pop()
-    {
+    void Pop() {
         _Q t = _q;
         if (this->isEmpty())
             return;
@@ -103,20 +100,17 @@ public:
         --this->size;
     }
 
-    Car Top()
-    {
+    Car Top() {
         if (this->isEmpty())
             exit(0);
         return _q->prev->car;
     }
 
-    bool findInQueue(Car C)
-    {
+    bool findInQueue(Car C) {
         if (this->isEmpty())
             return false;
         _Q ne = _q->next;
-        while (ne != _q)
-        {
+        while (ne != _q) {
             if (ne->car.num == C.num)
                 return true;
             ne = ne->next;
@@ -124,19 +118,16 @@ public:
         return false;
     }
 
-private:
+  private:
     _Q _q;
     int size;
 };
 
 typedef pair<int, float> pif;
 
-bool findInSack(const vector<Car> &stk, Car &car)
-{
-    for (auto &i: stk)
-    {
-        if (i.num == car.num)
-        {
+bool findInSack(const vector<Car> &stk, Car &car) {
+    for (auto &i: stk) {
+        if (i.num == car.num) {
             car.beginTime = i.beginTime;
             return true;
         }
@@ -144,8 +135,7 @@ bool findInSack(const vector<Car> &stk, Car &car)
     return false;
 }
 
-int main()
-{
+int main() {
     int capacity;
     float perPrice;
     cin >> capacity >> perPrice;
@@ -163,10 +153,8 @@ int main()
     queue q;
     q.init();
 
-    while (cin >> operation >> num >> time, operation || num || time)
-    {
-        if (!operation)
-        {
+    while (cin >> operation >> num >> time, operation || num || time) {
+        if (!operation) {
             // Create the parking car
             // car.num, car.beginTime
             Car car(num, time, 0);
@@ -176,21 +164,17 @@ int main()
                 // Push in queue
             else
                 q.Push(car);
-        }
-        else if (operation == 1)
-        {
+        } else
+        if (operation == 1) {
             // car.num, car.endTime
             Car car(num, time);
 
             // Find in the stack
-            if (findInSack(stk1, car))
-            {
+            if (findInSack(stk1, car)) {
                 float price = 0.0;
                 // Move cars behind it and re_enter
-                for (int i = static_cast<int> (stk1.size()) - 1; ~i; --i)
-                {
-                    if (stk1[i].num == car.num)
-                    {
+                for (int i = static_cast<int> (stk1.size()) - 1; ~i; --i) {
+                    if (stk1[i].num == car.num) {
                         int deTime = car.endTime - car.beginTime;
                         price = static_cast<float> (deTime) * perPrice;
                         // TODO: push the result to the answer vector(part. 1)
@@ -201,15 +185,13 @@ int main()
                     enStack(stk2, stk1[i]);
                     deStack(stk1);
                 }
-                for (int i = static_cast<int> (stk2.size()) - 1; ~i; --i)
-                {
+                for (int i = static_cast<int> (stk2.size()) - 1; ~i; --i) {
                     enStack(stk1, stk2[i]);
                     deStack(stk2);
                 }
 
                 // If the queue is not empty, pop the top and push into the stack
-                if (!q.isEmpty())
-                {
+                if (!q.isEmpty()) {
                     auto tc = q.Top();
                     tc.beginTime = car.endTime;
                     enStack(stk1, tc);
@@ -218,10 +200,8 @@ int main()
             }
 
             // Find in the queue
-            else if (q.findInQueue(car))
-            {
-                while (q.Top().num != car.num)
-                {
+            else if (q.findInQueue(car)) {
+                while (q.Top().num != car.num) {
                     auto tc = q.Top();
                     q.Pop();
                     q.Push(tc);
@@ -233,12 +213,12 @@ int main()
     }
 
     // TODO: print the car(s) in the park(part.2)
-    for (auto &i: stk1)
+    for (auto &i: stk1) {
         ans2.emplace_back(i.num);
+    }
 
     // TODO: print the car(s) in the road(part.3)
-    while (!q.isEmpty())
-    {
+    while (!q.isEmpty()) {
         auto tc = q.Top();
         ans3.emplace_back(tc.num);
         q.Pop();

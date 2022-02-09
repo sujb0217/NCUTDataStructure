@@ -1,6 +1,6 @@
 /**
- *    author: sujb
- *    created: December/09/2021 Thursday
+ *    author: Jingbo Su
+ *    created: 07/12/2021
 **/
 #include <bits/stdc++.h>
 
@@ -22,7 +22,7 @@ int main() {
         }
     }
     
-    function<int(int, int)> Dfs = [&](int x, int y) -> int {
+    function<int(int, int)> Dfs = [&](int x, int y) {
         if (x >= n - 1 and y >= m - 1) {
             vis[x][y] = false;
             return 1;
@@ -39,7 +39,7 @@ int main() {
         return paths;
     };
 
-    function<int(int, int)> Bfs = [&](int x0, int y0) -> int {
+    function<int(int, int)> Bfs = [&](int x0, int y0) {
         d[x0][y0] = 0;
         queue<pii> q;
         q.push(make_pair(x0, y0));
